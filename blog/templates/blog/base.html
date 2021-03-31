@@ -1,0 +1,97 @@
+{% load static %}  <!-- Load static files first -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- Add Bootstrap CSS -->
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous"
+        />
+
+        <!-- Add static css files -->
+        <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+
+        <!-- Add title for each page -->
+        {% if title %}
+        <title>Guerrilla Lab | {{ title }}</title>
+        {% else %}
+        <title>Guerrilla Lab</title>
+        {% endif %}
+    </head>
+
+    <body>
+        <!-- Header & Navigation -->
+        <header class="site-header">
+            <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+                <div class="container">
+                    <a href="/" class="navbar-brand mr-4">Guerrilla Lab</a>
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-toggle="collapse"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarToggle">
+                        <div class="navbar-nav mr-auto">
+                            <a href="{% url 'blog-home' %}" class="nav-item nav-link">Home</a>   <!-- hrefs with url names from urls.py -->
+                            <a href="{% url 'blog-about' %}" class="nav-item nav-link">About</a>
+                        </div>
+
+                        <!-- Navbar Right Hand Side -->
+                        <div class="navbar-nav">
+                            <a href="#" class="nav-item nav-link">Login</a>
+                            <a href="#" class="nav-item nav-link">Register</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container" role="main">
+            <div class="row">
+                <div class="col-md-8">
+                    {% block content %} {% endblock %}
+                </div>
+                <div class="col-md-4">
+                    <div class="content-section">
+                        <h3>What's Happening?</h3>
+                        <p class="text-muted">Get the latest info on what's going down in the lab and beyond
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-light">Featured Posts</li>
+                                <li class="list-group-item list-group-item-light">Top Rated Posts</li>
+                                <li class="list-group-item list-group-item-light">On the Horizon</li>
+                                <li class="list-group-item list-group-item-light">Become a Contributor</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+
+        <!-- Bootstrap Javascript, JQuery -->
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>
