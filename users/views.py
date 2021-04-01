@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
 
 def register(request):
@@ -23,7 +23,27 @@ def register(request):
 # add decorator to require users to be logged in to see page. Redirects to login page (LOGIN_URL in settings)
 @login_required
 def profile(request):
-    return render(request, 'users/profile.html')
+    if request.method == "POST":    # Populate forms with current user's data and check that form ready for submission
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+
+        # Save only if valid
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+
+            messages.success(request, f'Your account has been successfully updated')
+            return redirect('profile')  # Redirect to profile page
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+    
+    context = {
+        'u_form' : u_form,
+        'p_form' : p_form
+    }
+
+    return render(request, 'users/profile.html', context)
 
 
 """ 
