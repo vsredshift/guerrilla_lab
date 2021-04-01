@@ -1,20 +1,8 @@
 {% extends 'blog/base.html' %} {% load crispy_forms_tags %} {% block content %}
 <div class="content-section">
-    {% if user.profile.live_image == default %}
-    <img
-        src="{{
-    user.profile.image.url }}"
-        alt=""
-        class="round-circle account-img"
-    />
-    {% else %}
-    <img
-        src="{{ user.profile.live_image }}"
-        alt=""
-        class="round-circle account-img"
-    />
-    {% endif %}
     <div class="media-body">
+        <img src="{{ user.profile.image.url }}" alt="" class="rounded-circle account-img"/>
+    
         <h2>{{ user.username }}</h2>
         <p class="text-secondary">{{ user.email }}</p>
     </div>
