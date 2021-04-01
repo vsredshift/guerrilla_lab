@@ -1,0 +1,32 @@
+{% extends "blog/base.html" %} {% block content %}
+<!-- get posts context dictionary -->
+<article class="media content-section">
+    <img
+        class="rounded-circle article-img"
+        src="{{ object.author.profile.image.url }}"
+        {%
+        comment
+        %}
+        use
+        object
+        instead
+        of
+        post
+        {%
+        endcomment
+        %}
+        alt=""
+    />
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="#">{{ object.author }}</a>
+            <small class="text-muted"
+                >{{ object.date_posted|date:"F d, Y" }}</small
+            >
+            <!-- format date with |date ""  [check docs]-->
+        </div>
+        <h2 class="article-title">{{ object.title }}</h2>
+        <p class="article-content">{{ object.content }}</p>
+    </div>
+</article>
+{% endblock content %}

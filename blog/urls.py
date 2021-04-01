@@ -1,7 +1,17 @@
 from django.urls import path
+from .views import PostListView, PostDetailView, PostCreateView
 from . import views
 
 urlpatterns = [
-    path('', views.home, name='blog-home'),
+    # Function View
+    # path('', views.home, name='blog-home'),   
+
+    # Class View. Needs template <app>/<model>_<viewtype>.html
+    path('', PostListView.as_view(), name='blog-home'),    
+    # Route to specific post using integer:primary key (convention)
+    path('post/<int:pk>', PostDetailView.as_view(), name='post-detail'), 
+    # Create a new post [template <model>_<form>]
+    path('post/new', PostCreateView.as_view(), name='post-create'),    
+
     path('about/', views.about, name='blog-about'),
 ]
