@@ -1,0 +1,6 @@
+{
+    "html.format.templating": true,
+    "html.format.enable": false,
+    "html.format.indentHandlebars": true,
+    "python.pythonPath": "C:\\Users\\mosea\\Desktop\\django\\Scripts\\python.exe"
+}
