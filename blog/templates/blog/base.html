@@ -28,26 +28,36 @@
     <body>
         <!-- Header & Navigation -->
         <header class="site-header">
-            <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
                 <div class="container">
                     <a href="/" class="navbar-brand mr-4">Guerrilla Lab</a>
-                    <button
-                        class="navbar-toggler"
-                        type="button"
-                        data-toggle="collapse"
-                    >
+                    <button class="navbar-toggler" type="button" data-toggle="collapse">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarToggle">
                         <div class="navbar-nav mr-auto">
-                            <a href="{% url 'blog-home' %}" class="nav-item nav-link">Home</a>   <!-- hrefs with url names from urls.py -->
-                            <a href="{% url 'blog-about' %}" class="nav-item nav-link">About</a>
+                            {% if view.template_name != 'blog/home.html' or page_obj.number != 1  %}
+                                <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
+                            {% endif %}
+                        
+                            {% if user.is_authenticated %}
+                                <a class="nav-item nav-link" href="{% url 'blog-about' %}">Saved Posts</a>
+                            {% if user.is_staff %}
+                                <a class="nav-item nav-link" href="{% url 'user-posts' user.username %}">My Posts</a>
+                            {% endif %}
+                            {% endif %}
                         </div>
 
                         <!-- Navbar Right Hand Side -->
                         <div class="navbar-nav">
                             {% if user.is_authenticated %}
-                                <a href="{% url 'post-create' %}" class="nav-item nav-link">New Post</a>
+                                <form class="d-flex search-box">
+                                    <input class="form-control me-2" type="search" placeholder="Search Posts" aria-label="Search">
+                                    <button class="btn btn-outline-light ml-1 mb-1" type="submit">Search</button>
+                                </form>
+                                {% if user.is_staff %}
+                                    <a href="{% url 'post-create' %}" class="nav-item nav-link">New Post</a>
+                                {% endif %}
                                 <a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
                                 <a href="{% url 'logout' %}" class="nav-item nav-link">Logout</a>
                             {% else %}
