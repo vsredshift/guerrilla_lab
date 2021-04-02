@@ -2,18 +2,20 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from taggit.managers import TaggableManager
 
 
 class Post(models.Model):
     """ Main Blog Post class """
     title = models.CharField(max_length=100)
     content = models.TextField()
-    sub_title = models.CharField(max_length=255, default=content)
+    subheading = models.CharField(max_length=255, default=None)
     # auto_now=True -- original date lost on update  # auto_now_add -- keeps original
     date_posted = models.DateTimeField(default=timezone.now)
     # Delete posts of deleted users
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.CharField(max_length=30, default="untagged")
+    category = models.CharField(max_length=30, default="uncategorised")
+    tags = TaggableManager()
 
     def __str__(self):
         return self.title

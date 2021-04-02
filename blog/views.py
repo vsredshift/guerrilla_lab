@@ -2,10 +2,12 @@ from django.shortcuts import render, get_object_or_404
 # from django.http import HttpResponse   # not needed with render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from django import forms
 
 # Class views
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post
+from .models import Post, Category
+from .forms import PostForm
 
 """ 
 dummy posts to get started
@@ -70,7 +72,8 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'sub_title', 'category', 'content']
+    form_class = PostForm
+    #fields = ['title', 'subheading', 'category', 'content']
     
     # Override form_valid method and set author to current user
     def form_valid(self, form):
@@ -80,7 +83,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'sub_title', 'category', 'content']
+    fields = ['title', 'subheading', 'category', 'content']
     
     # Override form valid method and set author to current user
     def form_valid(self, form):
@@ -104,6 +107,12 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
+
+class PostCategoryView(CreateView):
+    model = Category
+    template_name = 'blog/add_category.html'
+    fields = '__all__'
+
 
 
 def about(request):
