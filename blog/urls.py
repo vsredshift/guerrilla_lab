@@ -1,6 +1,9 @@
 from django.urls import path
 from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView
 from . import views
+# Serving static files
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     # Function View
@@ -26,4 +29,4 @@ urlpatterns = [
 
     # About Page
     path('about/', views.about, name='blog-about'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

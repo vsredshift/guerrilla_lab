@@ -22,7 +22,11 @@
                         >{{ post.title }}</a
                     >
                 </h2>
-                <p class="article-content">{{ post.content|safe|slice:"0:200" }}</p>
+                {% if post.sub_title %}
+                    <p class="article-content">{{ post.sub_title|safe }}</p>
+                {% else %}
+                    <p class="article-content">{{ post.content|safe|slice:"0:200" }}</p>
+                {% endif %}
             </div>
         </article>
     {% endfor %} 

@@ -1,3 +1,9 @@
+:root {
+    --primary-color: #111;
+    --secondary-color: #f4f4f4;
+    --tertiary-color: #333;
+}
+
 body {
     background: #fafafa;
     color: #333333;
@@ -48,6 +54,12 @@ ul {
 a.article-title:hover {
     color: #428bca;
     text-decoration: none;
+}
+
+.article-subtitle {
+    font-weight: 500;
+    font-size: 1.2rem;
+    color: var(--tertiary-color);
 }
 
 .article-content {

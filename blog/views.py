@@ -70,7 +70,7 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'sub_title', 'category', 'content']
     
     # Override form_valid method and set author to current user
     def form_valid(self, form):
@@ -80,7 +80,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'sub_title', 'category', 'content']
     
     # Override form valid method and set author to current user
     def form_valid(self, form):

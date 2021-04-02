@@ -73,8 +73,12 @@
         <!-- Main Content -->
         <main class="container" role="main">
             <div class="row">
+            {% if view.template_name == 'blog/post_form.html' %}
+                <div class="col-md-10">
+            {% else %}
                 <div class="col-md-8">
-                    <!-- Check for messages or alerts -->
+            {% endif %}
+                <!-- Check for messages or alerts -->
                     {% if messages %}
                         {% for message in messages %}
                             <div class="alert alert-{{ message.tags }}">
@@ -88,19 +92,21 @@
                 </div>
 
                 <!-- Side Bar -->
-                <div class="col-md-4">
-                    <div class="content-section">
-                        <h3>What's Happening?</h3>
-                        <p class="text-muted">Get the latest info on what's going down in the lab and beyond
-                            <ul class="list-group">
-                                <li class="list-group-item list-group-item-light">Featured Posts</li>
-                                <li class="list-group-item list-group-item-light">Top Rated Posts</li>
-                                <li class="list-group-item list-group-item-light">On the Horizon</li>
-                                <li class="list-group-item list-group-item-light">Become a Contributor</li>
-                            </ul>
-                        </p>
+                {% if view.template_name == 'blog/home.html' %}
+                    <div class="col-md-4">
+                        <div class="content-section">
+                            <h3>What's Happening?</h3>
+                            <p class="text-muted">Get the latest info on what's going down in the lab and beyond
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-light">Featured Posts</li>
+                                    <li class="list-group-item list-group-item-light">Top Rated Posts</li>
+                                    <li class="list-group-item list-group-item-light">On the Horizon</li>
+                                    <li class="list-group-item list-group-item-light">Become a Contributor</li>
+                                </ul>
+                            </p>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
         </main>
 
