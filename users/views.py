@@ -20,7 +20,7 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 
-# add decorator to require users to be logged in to see page. Redirects to login page (LOGIN_URL in settings)
+# add decorator to require users to be logged in to see page. Redirects to login page (set LOGIN_URL in settings)
 @login_required
 def profile(request):
     if request.method == "POST":    # Populate forms with current user's data and check that form ready for submission
@@ -48,7 +48,7 @@ def profile(request):
 
 """ 
 Example of some FLASH messages for reference:
-
+--------------------------------------------
 messages.debug
 messages.info
 messages.success

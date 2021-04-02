@@ -19,9 +19,9 @@
 
         <!-- Add title for each page -->
         {% if title %}
-        <title>Guerrilla Lab | {{ title }}</title>
+            <title>Guerrilla Lab | {{ title }}</title>
         {% else %}
-        <title>Guerrilla Lab</title>
+            <title>Guerrilla Lab</title>
         {% endif %}
     </head>
 
@@ -47,8 +47,8 @@
                         <!-- Navbar Right Hand Side -->
                         <div class="navbar-nav">
                             {% if user.is_authenticated %}
-                            <a href="{% url 'post-create' %}" class="nav-item nav-link">New Post</a>
-                            <a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
+                                <a href="{% url 'post-create' %}" class="nav-item nav-link">New Post</a>
+                                <a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
                                 <a href="{% url 'logout' %}" class="nav-item nav-link">Logout</a>
                             {% else %}
                                 <a href="{% url 'login' %}" class="nav-item nav-link">Login</a>

@@ -7,13 +7,16 @@ class Profile(models.Model):
     # create 1-to-1 relationship user/profile
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=1000)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
-    
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics')  
 
     def __str__(self):
         return f'{self.user.username} Profile'
 
     def save(self, *args, **kwargs):
+        """ inherits args and kwargs of parent class.
+            Used for handling files in local storage -
+            not for deployment 
+        """
         super().save(*args, **kwargs)
         
         # Override save method to handle large images
@@ -23,5 +26,3 @@ class Profile(models.Model):
             output_size = (300, 300)    # set max size
             img.thumbnail(output_size)  # resize image
             img.save(self.image.path)   # save scaled down image
-
-

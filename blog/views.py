@@ -2,11 +2,13 @@ from django.shortcuts import render, get_object_or_404
 # from django.http import HttpResponse   # not needed with render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+
+# Class views
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post
 
 """ 
-dummy posts
+dummy posts to get started
 posts = [
     {
         'author': 'John Doe',
@@ -39,7 +41,10 @@ class PostListView(ListView):
     model = Post
     # Create template to handle class view
     template_name = 'blog/home.html'    # <app>/<model>_<viewtype>.html
-    context_object_name = 'posts'       # set name to use in template instead of default "object_list"
+    
+    # set name to use in template instead of default "object_list"
+    context_object_name = 'posts'       
+    
     ordering = ['-date_posted']         # Show newest posts first
     paginate_by = 5                     # Set number of posts per page
 
@@ -53,13 +58,13 @@ class UserPostListView(ListView):
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        # use order_by since ordering overridden as part of queryset
+        # use order_by since ordering overridden as part of queryset override
         return Post.objects.filter(author=user).order_by('-date_posted')    
         
 
 
 class PostDetailView(DetailView):
-    # following convention in template we only need one line of code!!
+    # By following convention in template we only need one line of code!!
     model = Post
     
 
@@ -67,7 +72,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'content']
     
-    # Override form valid method and set author to current user
+    # Override form_valid method and set author to current user
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)

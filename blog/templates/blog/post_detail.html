@@ -1,47 +1,38 @@
-{% extends "blog/base.html" %} {% block content %}
+{% extends "blog/base.html" %} 
+{% block content %}
 <!-- get posts context dictionary -->
-<article class="media content-section">
-    <img
-        class="rounded-circle article-img"
-        src="{{ object.author.profile.image.url }}"
-        {%
-        comment
-        %}
-        use
-        object
-        instead
-        of
-        post
-        {%
-        endcomment
-        %}
-        alt=""
-    />
-    <div class="media-body">
-        <div class="article-metadata">
-            <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
-            <small class="text-muted"
-                >{{ object.date_posted|date:"F d, Y" }}</small
-            >
-            <!-- format date with |date ""  [check docs]-->
+    <article class="media content-section">
+        <img
+            class="rounded-circle article-img"
+            src="{{ object.author.profile.image.url }}"
+            {% comment %} use object instead of post {% endcomment %}
+            alt=""
+        />
+        <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="{% url 'user-posts' object.author.username %}">
+                {{ object.author }}</a>
+                {% comment %} format date with |date ""  [check docs] {% endcomment %}
+                <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
 
-            {% if object.author == user %}
-            <div>
-                <a
-                    href="{% url 'post-update' object.id %}"
-                    class="btn btn-secondary btn-sm mt-1 mb-1"
-                    >Update</a
-                >
-                <a
-                    href="{% url 'post-delete' object.id %}"
-                    class="btn btn-danger btn-sm mt-1 mb-1"
-                    >Delete</a
-                >
+                {% if object.author == user %}
+                <div>
+                    <a
+                        href="{% url 'post-update' object.id %}"
+                        class="btn btn-secondary btn-sm mt-1 mb-1"
+                        >Update</a
+                    >
+                    <a
+                        href="{% url 'post-delete' object.id %}"
+                        class="btn btn-danger btn-sm mt-1 mb-1"
+                        >Delete</a
+                    >
+                </div>
+                {% endif %}
             </div>
-            {% endif %}
+            
+            <h2 class="article-title">{{ object.title }}</h2>
+            <p class="article-content">{{ object.content }}</p>
         </div>
-        <h2 class="article-title">{{ object.title }}</h2>
-        <p class="article-content">{{ object.content }}</p>
-    </div>
-</article>
+    </article>
 {% endblock content %}
