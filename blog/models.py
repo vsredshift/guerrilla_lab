@@ -9,7 +9,7 @@ class Post(models.Model):
     """ Main Blog Post class """
     title = models.CharField(max_length=100)
     content = models.TextField()
-    subheading = models.CharField(max_length=255, default=None)
+    subheading = models.TextField(max_length=255, default=None)
     # auto_now=True -- original date lost on update  # auto_now_add -- keeps original
     date_posted = models.DateTimeField(default=timezone.now)
     # Delete posts of deleted users
@@ -28,11 +28,13 @@ class Post(models.Model):
     
 
 class Category(models.Model):
-    category_name = models.CharField(max_length=30)
+    category_name = models.CharField(max_length=30, primary_key=True)
     
     def __str__(self):
         return self.category_name
 
     def get_absolute_url(self):
          return reverse("blog-home")
+    class Meta:
+        verbose_name_plural = "Categories"
     

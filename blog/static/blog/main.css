@@ -83,6 +83,15 @@ a.article-title:hover {
     text-decoration: none;
 }
 
+.article-top {
+    position: relative;
+}
+.article-category {
+    /* display: inline-block; */
+    position: absolute;
+    right: 0;
+}
+
 .article-svg {
     width: 25px;
     height: 25px;

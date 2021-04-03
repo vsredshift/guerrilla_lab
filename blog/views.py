@@ -64,7 +64,6 @@ class UserPostListView(ListView):
         return Post.objects.filter(author=user).order_by('-date_posted')    
         
 
-
 class PostDetailView(DetailView):
     # By following convention in template we only need one line of code!!
     model = Post
@@ -83,7 +82,8 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'subheading', 'category', 'content']
+    form_class = PostForm
+    # fields = ['title', 'subheading', 'category', 'content']
     
     # Override form valid method and set author to current user
     def form_valid(self, form):
@@ -107,13 +107,6 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
-
-class PostCategoryView(CreateView):
-    model = Category
-    template_name = 'blog/add_category.html'
-    fields = '__all__'
-
-
 
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})

@@ -9,12 +9,13 @@
                 src="{{ post.author.profile.image.url }}"
                 alt=""
             />
-            <div class="media-body">
+            <div class="media-body article-top">
                 <div class="article-metadata">
                     <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
                     <small class="text-muted"
-                        >{{ post.date_posted|date:"F d, Y" }}</small
+                        >{{ post.date_posted|date:"F d, Y" }} </small
                     >
+                    <a href="#" class="article-category">{{ post.category }}</a>
                     <!-- format date with |date ""  [check docs]-->
                 </div>
                 <h2>

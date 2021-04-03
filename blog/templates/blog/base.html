@@ -44,7 +44,6 @@
                                 <a class="nav-item nav-link" href="{% url 'blog-about' %}">Saved Posts</a>
                             {% if user.is_staff %}
                                 <a class="nav-item nav-link" href="{% url 'user-posts' user.username %}">My Posts</a>
-                                <a class="nav-item nav-link" href="{% url 'category' %}">Add Category</a>
                             {% endif %}
                             {% endif %}
                         </div>
@@ -74,7 +73,7 @@
         <!-- Main Content -->
         <main class="container" role="main">
             <div class="row">
-            {% if view.template_name == 'blog/post_form.html' %}
+            {% if view.template_name != 'blog/home.html' %}
                 <div class="col-md-10">
             {% else %}
                 <div class="col-md-8">
