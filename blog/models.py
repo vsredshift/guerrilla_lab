@@ -9,7 +9,7 @@ class Post(models.Model):
     """ Main Blog Post class """
     title = models.CharField(max_length=100)
     content = models.TextField()
-    subheading = models.TextField(max_length=255, blank=True, default=None)
+    subheading = models.TextField(max_length=350, blank=True, default=None)
     # auto_now=True -- original date lost on update  # auto_now_add -- keeps original
     date_posted = models.DateTimeField(default=timezone.now)
     # Delete posts of deleted users

@@ -1,7 +1,7 @@
 {% extends "blog/base.html" %} 
 {% block content %} 
     {% if page_obj %}
-        <h1 class="mb-3">Posts in {{ category.capitalize }} </h1>
+        <h1 class="mb-3">Posts in {{ category }} </h1>
         {% for post in page_obj %}
             <article class="media content-section">
             <img
@@ -23,7 +23,11 @@
                     {{ post.title }}
                     </a>
                 </h2>
-                <p class="article-content">{{ post.content }}</p>
+                {% if post.subheading %}
+                    <p class="article-content">{{ post.subheading|safe }}</p>
+                {% else %}
+                    <p class="article-content">{{ post.content|safe|slice:"0:200" }}</p>
+                {% endif %}
             </div>
         </article>
         {% endfor %}

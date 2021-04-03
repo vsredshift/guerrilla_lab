@@ -51,6 +51,12 @@ class PostListView(ListView):
     ordering = ['-date_posted']         # Show newest posts first
     paginate_by = 5                     # Set number of posts per page
 
+    def get_context_data(self, *args, **kwargs):
+        category_menu = Category.objects.all()
+        context = super(PostListView, self).get_context_data(*args, **kwargs)
+        context['category_menu'] = category_menu.order_by('category_name')
+        return context
+
 
 class UserPostListView(ListView):
     # show only posts of selected user
@@ -118,4 +124,4 @@ def CategoryView(request, category):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'blog/post_category.html', {'page_obj':page_obj})
+    return render(request, 'blog/post_category.html', {'category':category, 'page_obj':page_obj})

@@ -30,41 +30,54 @@
         <header class="site-header">
             <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
                 <div class="container">
-                    <a href="/" class="navbar-brand mr-4">Guerrilla Lab</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse">
-                        <span class="navbar-toggler-icon"></span>
+                    <a href="{% url 'blog-home' %}" class="navbar-brand mr-4">Guerrilla Lab</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarToggle">
-                        <div class="navbar-nav mr-auto">
-                            {% if view.template_name != 'blog/home.html' or page_obj.number != 1  %}
-                                <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
-                            {% endif %}
-                        
-                            {% if user.is_authenticated %}
-                                <a class="nav-item nav-link" href="{% url 'blog-about' %}">Saved Posts</a>
-                            {% if user.is_staff %}
-                                <a class="nav-item nav-link" href="{% url 'user-posts' user.username %}">My Posts</a>
-                            {% endif %}
-                            {% endif %}
-                        </div>
 
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'blog-about' %}">Saved Posts</a>
+                            </li>
+                        {% if user.is_staff %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'user-posts' user.username %}">My Posts</a>
+                            </li>
+                        {% endif %}
+                        {% endif %}
+                        {% if category_menu%}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Categories
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    {% for item in category_menu %}
+                                        <a href="{% url 'category' item %}" class="dropdown-item">{{ item }}</a>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        {% endif %}
+                        </ul>
+      
+                    </div>
                         <!-- Navbar Right Hand Side -->
-                        <div class="navbar-nav">
-                            {% if user.is_authenticated %}
-                                <form class="d-flex search-box">
-                                    <input class="form-control me-2" type="search" placeholder="Search Posts" aria-label="Search">
-                                    <button class="btn btn-outline-light ml-1 mb-1" type="submit">Search</button>
-                                </form>
-                                {% if user.is_staff %}
-                                    <a href="{% url 'post-create' %}" class="nav-item nav-link">New Post</a>
-                                {% endif %}
-                                <a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
-                                <a href="{% url 'logout' %}" class="nav-item nav-link">Logout</a>
-                            {% else %}
-                                <a href="{% url 'login' %}" class="nav-item nav-link">Login</a>
-                                <a href="{% url 'register' %}" class="nav-item nav-link">Register</a>
+                    <div class="navbar-nav">
+                        {% if user.is_authenticated %}
+                            <form class="d-flex search-box">
+                                <input class="form-control me-2" type="search" placeholder="Search Posts" aria-label="Search">
+                                <button class="btn btn-outline-light ml-1 mb-1" type="submit">Search</button>
+                            </form>
+                            {% if user.is_staff %}
+                                <a href="{% url 'post-create' %}" class="nav-link">New Post</a>
                             {% endif %}
-                        </div>
+                            <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+                            <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="nav-link">Login</a>
+                            <a href="{% url 'register' %}" class="nav-link">Register</a>
+                        {% endif %}
                     </div>
                 </div>
             </nav>
@@ -127,5 +140,12 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"
         ></script>
+
+        <script>        
+            var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
+            var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+                return new bootstrap.Dropdown(dropdownToggleEl)
+            })
+        </script>
     </body>
 </html>

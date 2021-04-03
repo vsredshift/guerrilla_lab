@@ -16,14 +16,18 @@
                 </a>
                 <!-- format date with |date ""  [check docs]-->
                 <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
-                <a href="#" class="article-category">{{ post.category }}</a>
+                <a href="{% url 'category' post.category %}" class="article-category">{{ post.category }}</a>
             </div>
             <h2>
                 <a class="article-title" href="{% url 'post-detail' post.id %}">
                 {{ post.title }}
                 </a>
             </h2>
-            <p class="article-content">{{ post.content }}</p>
+            {% if post.subheading %}
+                <p class="article-content">{{ post.subheading|safe }}</p>
+            {% else %}
+                <p class="article-content">{{ post.content|safe|slice:"0:200" }}</p>
+            {% endif %}
         </div>
     </article>
     {% endfor %} 
