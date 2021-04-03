@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView, PostCategoryView, PostCategoryListView
+from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView, CategoryView
 from . import views
 # Serving static files
 from django.conf import settings
@@ -26,6 +26,9 @@ urlpatterns = [
 
     # Delete Post
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),   
+
+    # Posts by category
+    path('category/<str:category>/', CategoryView, name='category'),
 
     # About Page
     path('about/', views.about, name='blog-about'),

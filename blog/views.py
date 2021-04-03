@@ -110,3 +110,8 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
+
+def CategoryView(request, category):
+    category_posts = Post.objects.filter(category=category)
+
+    return render(request, 'blog/post_category.html', {'category':category, 'category_posts':category_posts})
