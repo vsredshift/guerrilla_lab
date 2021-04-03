@@ -9,13 +9,13 @@ class Post(models.Model):
     """ Main Blog Post class """
     title = models.CharField(max_length=100)
     content = models.TextField()
-    subheading = models.TextField(max_length=255, default=None)
+    subheading = models.TextField(max_length=255, blank=True, default=None)
     # auto_now=True -- original date lost on update  # auto_now_add -- keeps original
     date_posted = models.DateTimeField(default=timezone.now)
     # Delete posts of deleted users
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.CharField(max_length=30, default="uncategorised")
-    tags = TaggableManager()
+    category = models.CharField(max_length=30, default=None)
+    tags = TaggableManager(blank=True)
 
     def __str__(self):
         return self.title

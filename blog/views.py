@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django import forms
+from django.core.paginator import Paginator
 
 # Class views
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -112,6 +113,9 @@ def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
 
 def CategoryView(request, category):
-    category_posts = Post.objects.filter(category=category)
+    category_posts = Post.objects.filter(category=category.casefold().capitalize()).order_by('-date_posted')
+    paginator = Paginator(category_posts, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
-    return render(request, 'blog/post_category.html', {'category':category, 'category_posts':category_posts})
+    return render(request, 'blog/post_category.html', {'page_obj':page_obj})
