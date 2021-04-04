@@ -16,6 +16,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.CharField(max_length=30, default=None)
     tags = TaggableManager(blank=True)
+    likes = models.ManyToManyField(User, related_name='blog_likes')
 
     def __str__(self):
         return self.title
@@ -25,6 +26,9 @@ class Post(models.Model):
         return reverse("post-detail", kwargs={"pk": self.pk})
         # If we want to go back to home page
         # return reverse("blog-home")
+
+    def total_likes(self):
+        return self.likes.count()
     
 
 class Category(models.Model):

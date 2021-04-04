@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-# from django.http import HttpResponse   # not needed with render
+from django.http import HttpResponseRedirect as redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django import forms
 from django.core.paginator import Paginator
+from django.urls import reverse
 
 # Class views
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -29,14 +30,14 @@ posts = [
 """
 
 """ Function View """
-def home(request):
-    # return HttpResponse('<h1>Blog Home</h1>')  # without templates for demonstration
-    context = {
-        # 'posts': posts    # Dummy posts
-        'posts': Post.objects.all()
-    }
-    # context passes data into template to access keyname within template
-    return render(request, 'blog/home.html', context)
+# def home(request):
+#     # return HttpResponse('<h1>Blog Home</h1>')  # without templates for demonstration
+#     context = {
+#         # 'posts': posts    # Dummy posts
+#         'posts': Post.objects.all()
+#     }
+#     # context passes data into template to access keyname within template
+#     return render(request, 'blog/home.html', context)
 
 
 """ Class View """
@@ -125,3 +126,9 @@ def CategoryView(request, category):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'blog/post_category.html', {'category':category, 'page_obj':page_obj})
+
+def LikePostView(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    post.likes.add(request.user)
+    return redirect(reverse('post-detail', args=[str(pk)]))
+    

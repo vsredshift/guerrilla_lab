@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView, CategoryView
+from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView, CategoryView, LikePostView
 from . import views
 # Serving static files
 from django.conf import settings
@@ -22,7 +22,7 @@ urlpatterns = [
     path('post/new/', PostCreateView.as_view(), name='post-create'),  
 
     # Update Post
-     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),   
+    path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),   
 
     # Delete Post
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),   
@@ -30,6 +30,7 @@ urlpatterns = [
     # Posts by category
     path('category/<str:category>/', CategoryView, name='category'),
 
+    path('like/<int:pk>/', LikePostView, name="post-like"),
     # About Page
     path('about/', views.about, name='blog-about'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -11,7 +11,7 @@
         <div class="media-body article-top">
             <div class="article-metadata">
                 <a class="mr-2" href="{% url 'user-posts' object.author.username %}">
-                {{ object.author }}</a>
+                {{ object.author.first_name}} {{object.author.last_name }}</a>
                 {% comment %} format date with |date ""  [check docs] {% endcomment %}
                 <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
                 <a href="{% url 'category' object.category %}" class="article-category">{{ object.category }}</a>
@@ -35,6 +35,14 @@
             <h2 class="article-title">{{ object.title }}</h2>
             <p class="article-subtitle">{{ object.subheading }}</p>
             <p class="article-content">{{ object.content|safe }}</p>
+            <hr>
+            <form action="{% url 'post-like' post.pk %}" method=POST>
+                {% csrf_token %}
+                <button class="btn btn-primary btn-sm" type='submit' name='post_id' value='{{ post.id }}'>Like</button>
+                <p>Total Likes: {{ post.total_likes }}</p>
+            </form>
         </div>
     </article>
+    <br><br>
+    
 {% endblock content %}
