@@ -66,6 +66,12 @@ a.article-title:hover {
     white-space: pre-line;
 }
 
+.article-content.hide-image + p > img {
+    visibility: hidden;
+    position: absolute;
+    z-index: -10;
+}
+
 .article-img {
     height: 65px;
     width: 65px;
@@ -109,3 +115,9 @@ a.article-title:hover {
     font-size: 2.5rem;
 }
 
+.likes {
+    display: flex;
+    margin: 0 5px;
+    align-items: center;
+    
+}

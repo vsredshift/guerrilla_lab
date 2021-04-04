@@ -35,12 +35,23 @@
             <h2 class="article-title">{{ object.title }}</h2>
             <p class="article-subtitle">{{ object.subheading }}</p>
             <p class="article-content">{{ object.content|safe }}</p>
-            <hr>
-            <form action="{% url 'post-like' post.pk %}" method=POST>
-                {% csrf_token %}
-                <button class="btn btn-primary btn-sm" type='submit' name='post_id' value='{{ post.id }}'>Like</button>
-                <p>Total Likes: {{ post.total_likes }}</p>
-            </form>
+            
+            {% if user.is_authenticated %}
+                <hr>
+                <div class="likes">
+                    <form action="{% url 'post-like' post.pk %}" method=POST>
+                        {% csrf_token %}
+                        {% comment %} <button class="btn btn-primary btn-sm" type='submit' name='post_id' value='{{ post.id }}'>Like</button> {% endcomment %}
+                        <button class="btn btn-outline-secondary btn-sm" style="border: 0" name='post_id' value='{{ post.id }}'><i class="fas fa-arrow-up"></i></button>{{ post.total_likes }}
+                    </form>
+                    <form action="{% url 'post-dislike' post.pk %}" method=POST>
+                        {% csrf_token %}
+                        
+                        <button class="btn btn-outline-secondary btn-sm ml-3" style="border: 0" name='post_id_down' value='{{ post.id }}'><i class="fas fa-arrow-down"></i></button>{{ post.total_dislikes }}
+                    </form>
+                </div>
+                
+            {% endif %}
         </div>
     </article>
     <br><br>

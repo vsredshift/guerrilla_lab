@@ -132,3 +132,8 @@ def LikePostView(request, pk):
     post.likes.add(request.user)
     return redirect(reverse('post-detail', args=[str(pk)]))
     
+def DislikePostView(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id_down'))
+    post.dislikes.add(request.user)
+    return redirect(reverse('post-detail', args=[str(pk)]))
+    

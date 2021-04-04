@@ -26,7 +26,7 @@
                 {% if post.subheading %}
                     <p class="article-content">{{ post.subheading|safe }}</p>
                 {% else %}
-                    <p class="article-content">{{ post.content|safe|slice:"0:200" }}</p>
+                    <p class="article-content hide-image">{{ post.content|safe|slice:"0:300" }}</p>
                 {% endif %}
             </div>
         </article>

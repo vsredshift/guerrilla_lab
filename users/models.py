@@ -6,7 +6,7 @@ from PIL import Image
 class Profile(models.Model):
     # create 1-to-1 relationship user/profile
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=1000)
+    bio = models.TextField(max_length=1000, blank=True, null=True)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')  
 
     def __str__(self):

@@ -26,8 +26,12 @@
                 {% if post.subheading %}
                     <p class="article-content">{{ post.subheading|safe }}</p>
                 {% else %}
-                    <p class="article-content">{{ post.content|safe|slice:"0:200" }}</p>
+                    <p class="article-content hide-image">{{ post.content|safe|slice:"0:300" }}</p>
                 {% endif %}
+                <div class="likes"> <!-- Don't forget to style this!!!! -->
+                    <i class="fas fa-arrow-up mr-1"></i>{{ post.total_likes }}
+                    <i class="fas fa-arrow-down mr-1 ml-3"></i>{{ post.total_dislikes }}
+                </div>
             </div>
         </article>
     {% endfor %} 

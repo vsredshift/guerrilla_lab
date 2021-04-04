@@ -21,6 +21,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'taggit',
+    'ckeditor',
     'crispy_forms',
     'users.apps.UsersConfig',
     'blog.apps.BlogConfig',

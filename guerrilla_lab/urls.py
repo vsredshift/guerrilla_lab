@@ -30,6 +30,16 @@ urlpatterns = [
     # built in login/logout views from django with argument directing to template
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name="login"),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name="logout"),
+    
+    # Change Password
+    path('password-change/', auth_views.PasswordChangeView.as_view(template_name='users/password_change.html')),
+
+    path('password-change/done/', 
+        auth_views.PasswordChangeDoneView.as_view(template_name='users/password_change_done.html'), 
+        name="password_change_done"),
+    
+    
+    # Reset Password
     path('password-reset/', 
         auth_views.PasswordResetView.as_view(template_name='users/password_reset.html'), 
         name="password_reset"),
