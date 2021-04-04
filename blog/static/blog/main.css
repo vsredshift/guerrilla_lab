@@ -78,6 +78,12 @@ a.article-title:hover {
     margin-right: 16px;
 }
 
+.article-end-img {
+    width: 100%;
+    height: auto;
+    max-height: 240px;
+}
+
 .article-metadata {
     padding-bottom: 1px;
     margin-bottom: 4px;

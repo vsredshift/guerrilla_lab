@@ -1,13 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
-from PIL import Image  
+from PIL import Image
 
 
 class Profile(models.Model):
     # create 1-to-1 relationship user/profile
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=1000, blank=True, null=True)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')  
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    # social media links
+    website = models.CharField(max_length=300, blank=True, null=True)
+    linkedin = models.CharField(max_length=300, blank=True, null=True)
+    github = models.CharField(max_length=300, blank=True, null=True)
+    twitter = models.CharField(max_length=300, blank=True, null=True)
+    instagram = models.CharField(max_length=300, blank=True, null=True)
+    facebook = models.CharField(max_length=300, blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'
@@ -18,7 +25,7 @@ class Profile(models.Model):
             not for deployment 
         """
         super().save(*args, **kwargs)
-        
+
         # Override save method to handle large images
         img = Image.open(self.image.path)
 

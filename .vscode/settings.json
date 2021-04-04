@@ -2,6 +2,6 @@
     "html.format.templating": false,
     "html.format.enable": false,
     "html.format.indentHandlebars": true,
-    "python.pythonPath": "C:\\Users\\mosea\\Desktop\\django\\Scripts\\python.exe",
+    "python.pythonPath": "C:\\Users\\mosea\\anaconda3\\envs\\django\\python.exe",
     "python.formatting.provider": "autopep8"
 }

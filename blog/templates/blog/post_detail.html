@@ -36,6 +36,41 @@
             <p class="article-subtitle">{{ object.subheading }}</p>
             <p class="article-content">{{ object.content|safe }}</p>
             
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-3">
+                        <img class="article-end-img" src="{{ object.author.profile.image.url }}" alt="...">
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <h4 class="card-title mb-2">{{ object.author.first_name }} {{ object.author.last_name }}</h4>
+                            <div class="small text-muted mb-3">
+                                {% if object.author.profile.website %}
+                                    <a class="mr-2" target="blank" href="{{ object.author.profile.website }}"><i class="fas fa-home fa-2x"></i></a>
+                                {% endif %}
+                                {% if object.author.profile.linkedin %}
+                                    <a class="mr-2" target="blank" href="{{ object.author.profile.linkedin }}"><i class="fab fa-linkedin-in fa-2x"></i></a>
+                                {% endif %}
+                                {% if object.author.profile.github %}
+                                    <a class="mr-2" target="blank" href="{{ object.author.profile.github }}"><i class="fab fa-github fa-2x"></i></a>
+                                {% endif %}
+                                {% if object.author.profile.twitter %}
+                                    <a class="mr-2" target="blank" href="{{ object.author.profile.twitter }}"><i class="fab fa-twitter fa-2x"></i></a>
+                                {% endif %}
+                                {% if object.author.profile.instagram %}
+                                    <a class="mr-2" target="blank" href="{{ object.author.profile.instagram}}"><i class="fab fa-instagram fa-2x"></i></a>
+                                {% endif %}
+                                {% if object.author.profile.facebook %}
+                                    <a class="mr-2" target="blank" href="{{ object.author.profile.facebook }}"><i class="fab fa-facebook fa-2x"></i></a>
+                                {% endif %}
+                                
+                            </div>
+                            <p class="card-text">{{ object.author.profile.bio }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                            
             {% if user.is_authenticated %}
                 <hr>
                 <div class="likes">

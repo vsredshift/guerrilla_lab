@@ -30,9 +30,16 @@ urlpatterns = [
     # Posts by category
     path('category/<str:category>/', CategoryView, name='category'),
 
+    # Likes/Dislikes
     path('like/<int:pk>/', LikePostView, name="post-like"),
     path('dislike/<int:pk>/', DislikePostView, name="post-dislike"),
 
     # About Page
     path('about/', views.about, name='blog-about'),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] 
+
+
+# Add media files if in dev mode
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
