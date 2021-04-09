@@ -4,7 +4,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django import forms
 from django.core.paginator import Paginator
+from django.template.defaultfilters import slugify
 from django.urls import reverse
+from taggit.models import Tag
 
 # Class views
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -41,14 +43,16 @@ posts = [
 
 
 """ Class View """
+
+
 class PostListView(ListView):
     model = Post
     # Create template to handle class view
     template_name = 'blog/home.html'    # <app>/<model>_<viewtype>.html
-    
+
     # set name to use in template instead of default "object_list"
-    context_object_name = 'posts'       
-    
+    context_object_name = 'posts'
+
     ordering = ['-date_posted']         # Show newest posts first
     paginate_by = 5                     # Set number of posts per page
 
@@ -62,26 +66,26 @@ class PostListView(ListView):
 class UserPostListView(ListView):
     # show only posts of selected user
     model = Post
-    template_name = 'blog/user_posts.html'    
-    context_object_name = 'posts'               
-    paginate_by = 5     
+    template_name = 'blog/user_posts.html'
+    context_object_name = 'posts'
+    paginate_by = 5
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         # use order_by since ordering overridden as part of queryset override
-        return Post.objects.filter(author=user).order_by('-date_posted')    
-        
+        return Post.objects.filter(author=user).order_by('-date_posted')
+
 
 class PostDetailView(DetailView):
     # By following convention in template we only need one line of code!!
     model = Post
-    
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     #fields = ['title', 'subheading', 'category', 'content']
-    
+
     # Override form_valid method and set author to current user
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -92,7 +96,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     form_class = PostForm
     # fields = ['title', 'subheading', 'category', 'content']
-    
+
     # Override form valid method and set author to current user
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -105,6 +109,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
+
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = '/'       # Send to home after deletion
@@ -116,24 +121,28 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
 
+
 def CategoryView(request, category):
-    category_posts = Post.objects.filter(category=category.casefold().capitalize()).order_by('-date_posted')
+    category_posts = Post.objects.filter(
+        category=category.casefold().capitalize()).order_by('-date_posted')
     paginator = Paginator(category_posts, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'blog/post_category.html', {'category':category, 'page_obj':page_obj})
+    return render(request, 'blog/post_category.html', {'category': category, 'page_obj': page_obj})
+
 
 def LikePostView(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
     post.likes.add(request.user)
     return redirect(reverse('post-detail', args=[str(pk)]))
-    
+
+
 def DislikePostView(request, pk):
     post = get_object_or_404(Post, id=request.POST.get('post_id_down'))
     post.dislikes.add(request.user)
     return redirect(reverse('post-detail', args=[str(pk)]))
-    

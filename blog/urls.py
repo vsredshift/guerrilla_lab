@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView, CategoryView, LikePostView, DislikePostView
+from users.views import ProfilePageView
 from . import views
 # Serving static files
 from django.conf import settings
@@ -7,25 +8,25 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     # Function View
-    # path('', views.home, name='blog-home'),   
+    # path('', views.home, name='blog-home'),
 
     # Class View. Uses template <app>/<model>_<viewtype>.html
-    path('', PostListView.as_view(), name='blog-home'),  
+    path('', PostListView.as_view(), name='blog-home'),
 
     # Posts by user
-    path('user/<str:username>', UserPostListView.as_view(), name='user-posts'),  
-    
+    path('user/<str:username>', UserPostListView.as_view(), name='user-posts'),
+
     # Route to specific post using integer:primary key (convention)
-    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'), 
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
 
     # Create a new post [template <model>_<form>]
-    path('post/new/', PostCreateView.as_view(), name='post-create'),  
+    path('post/new/', PostCreateView.as_view(), name='post-create'),
 
     # Update Post
-    path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),   
+    path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
 
     # Delete Post
-    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),   
+    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
 
     # Posts by category
     path('category/<str:category>/', CategoryView, name='category'),
@@ -34,12 +35,16 @@ urlpatterns = [
     path('like/<int:pk>/', LikePostView, name="post-like"),
     path('dislike/<int:pk>/', DislikePostView, name="post-dislike"),
 
+    # User Profile Page
+    path('<int:pk>/profile/', ProfilePageView.as_view(), name='profile-page'),
     # About Page
     path('about/', views.about, name='blog-about'),
-] 
+]
 
 
 # Add media files if in dev mode
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL,
+                          document_root=settings.STATIC_ROOT)

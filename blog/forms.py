@@ -12,11 +12,13 @@ class PostForm(forms.ModelForm):
             choices.sort()
 
         model = Post
-        fields = ('title', 'subheading', 'head_image', 'category', 'content')
+        fields = ('title', 'subheading', 'head_image',
+                  'category', 'tags', 'content')
 
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'subheading': forms.Textarea(attrs={'rows': 4}),
             'category': forms.Select(choices=choices, attrs={'class': 'form-control'}),
+            'tags': forms.TextInput(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control'})
         }

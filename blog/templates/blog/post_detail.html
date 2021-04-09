@@ -15,7 +15,8 @@
                 {% comment %} format date with |date ""  [check docs] {% endcomment %}
                 <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
                 <a href="{% url 'category' object.category %}" class="article-category">{{ object.category }}</a>
-
+                
+                {{ object.tags.name }}
                 {% if object.author == user %}
                 <div>
                     <a
@@ -43,6 +44,7 @@
                     </div>
                     <div class="col-md-9">
                         <div class="card-body">
+                        <a href="{% url 'profile-page' object.author.profile.id %}">Profile</a>
                             <h4 class="card-title mb-2">{{ object.author.first_name }} {{ object.author.last_name }}</h4>
                             <div class="small text-muted mb-3">
                                 {% if object.author.profile.website %}
@@ -77,18 +79,34 @@
                     <form action="{% url 'post-like' post.pk %}" method=POST>
                         {% csrf_token %}
                         {% comment %} <button class="btn btn-primary btn-sm" type='submit' name='post_id' value='{{ post.id }}'>Like</button> {% endcomment %}
-                        <button class="btn btn-outline-secondary btn-sm" style="border: 0" name='post_id' value='{{ post.id }}'><i class="fas fa-arrow-up"></i></button>{{ post.total_likes }}
+                        <button id="like" class="btn btn-outline-secondary btn-sm" style="border: 0" name='post_id' value='{{ post.id }}'><i class="fas fa-arrow-up"></i></button>{{ post.total_likes }}
                     </form>
                     <form action="{% url 'post-dislike' post.pk %}" method=POST>
                         {% csrf_token %}
                         
-                        <button class="btn btn-outline-secondary btn-sm ml-3" style="border: 0" name='post_id_down' value='{{ post.id }}'><i class="fas fa-arrow-down"></i></button>{{ post.total_dislikes }}
+                        <button id="dislike" class="btn btn-outline-secondary btn-sm ml-3" style="border: 0" name='post_id_down' value='{{ post.id }}'><i class="fas fa-arrow-down"></i></button>{{ post.total_dislikes }}
                     </form>
                 </div>
                 
+            {% endif %}
+
+            <h2>Comments</h2>
+            {% if not post.comments.all %}
+                Be the first to comment... <a href="#"><i class="fas fa-comment"></i></a>
+            {% else %}
+                {% for comment in post.comments.all%}
+                    <strong>{{ comment.name }} on {{ comment.date }}</strong>
+                    <br>
+                    {{ comment.body }}
+                {% endfor %}
             {% endif %}
         </div>
     </article>
     <br><br>
     
 {% endblock content %}
+
+<script>
+    document.querySelector("#like").addEventListener('click', function(e) {
+        e.preventDefault();
+        });</script>

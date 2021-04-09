@@ -119,6 +119,8 @@ STATIC_ROOT = BASE_DIR.joinpath('static')
 MEDIA_ROOT = BASE_DIR.joinpath('media')  # with pathlib
 MEDIA_URL = '/media/'
 
+# Ignore casing when searching tags
+TAGGIT_CASE_INSENSITIVE = True
 
 # Set crispy styling
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
