@@ -78,10 +78,10 @@
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                  {% if user.is_staff %}
-                                    <li><a href="{% url 'post-create' %}" class="nav-link">New Post</a></li>
+                                    <li><a href="{% url 'post-create' %}" class="nav-link profile-action">New Post</a></li>
                                 {% endif %}
-                                    <li><a href="{% url 'profile' %}" class="nav-link">Profile</a></li>
-                                    <li><a href="{% url 'logout' %}" class="nav-link">Logout</a></li>
+                                    <li><a href="{% url 'profile' %}" class="nav-link profile-action">Profile</a></li>
+                                    <li><a href="{% url 'logout' %}" class="nav-link profile-action">Logout</a></li>
                                 </ul>
                             </div>
                         {% else %}

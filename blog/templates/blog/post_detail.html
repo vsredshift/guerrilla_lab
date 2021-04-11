@@ -16,16 +16,16 @@
                 <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
                 <a href="{% url 'category' object.category %}" class="article-category">{{ object.category }}</a>
                 
-                {{ object.tags.name }}
+                
                 {% if object.author == user %}
                 <div>
                     <a
-                        href="{% url 'post-update' object.id %}"
+                        href="{% url 'post-update' object.slug %}"
                         class="btn btn-secondary btn-sm mt-1 mb-1"
                         >Update</a
                     >
                     <a
-                        href="{% url 'post-delete' object.id %}"
+                        href="{% url 'post-delete' object.slug %}"
                         class="btn btn-danger btn-sm mt-1 mb-1"
                         >Delete</a
                     >
@@ -36,7 +36,7 @@
             <h2 class="article-title">{{ object.title }}</h2>
             <p class="article-subtitle">{{ object.subheading }}</p>
             <p class="article-content">{{ object.content|safe }}</p>
-            
+            {% if object.author.profile %}
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-3">
@@ -72,30 +72,37 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
                             
             {% if user.is_authenticated %}
                 <hr>
                 <div class="likes">
-                    <form action="{% url 'post-like' post.pk %}" method=POST>
+                    <form action="{% url 'post-like' post.slug %}" method=POST>
                         {% csrf_token %}
                         {% comment %} <button class="btn btn-primary btn-sm" type='submit' name='post_id' value='{{ post.id }}'>Like</button> {% endcomment %}
-                        <button id="like" class="btn btn-outline-secondary btn-sm" style="border: 0" name='post_id' value='{{ post.id }}'><i class="fas fa-arrow-up"></i></button>{{ post.total_likes }}
+                        <button id="like" class="btn btn-outline-secondary btn-sm" style="border: 0" name='post_id' value='{{ post.slug }}'><i class="fas fa-arrow-up"></i></button>{{ post.total_likes }}
                     </form>
-                    <form action="{% url 'post-dislike' post.pk %}" method=POST>
+                    <form action="{% url 'post-dislike' post.slug %}" method=POST>
                         {% csrf_token %}
                         
-                        <button id="dislike" class="btn btn-outline-secondary btn-sm ml-3" style="border: 0" name='post_id_down' value='{{ post.id }}'><i class="fas fa-arrow-down"></i></button>{{ post.total_dislikes }}
+                        <button id="dislike" class="btn btn-outline-secondary btn-sm ml-3" style="border: 0" name='post_id_down' value='{{ post.slug }}'><i class="fas fa-arrow-down"></i></button>{{ post.total_dislikes }}
                     </form>
                 </div>
-                
-            {% endif %}
 
-            <h2>Comments</h2>
+            {% endif %}
+            
+            <br>
+            <h3>{{ post.comments.count }} comment{{post.comments.count|pluralize}}</h3>
             {% if not post.comments.all %}
-                Be the first to comment... <a href="#"><i class="fas fa-comment"></i></a>
+                {% if user.is_authenticated%}
+                    Be the first to comment... <a href="#"><i class="fas fa-comment"></i></a>
+                {% else %}
+                    <p>No comments yet.</p>
+                    <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Sign up</a> to post a comment.
+                {% endif %}
             {% else %}
                 {% for comment in post.comments.all%}
-                    <strong>{{ comment.name }} on {{ comment.date }}</strong>
+                    <strong>{{ comment.name }}</strong> on {{ comment.date }}
                     <br>
                     {{ comment.body }}
                 {% endfor %}

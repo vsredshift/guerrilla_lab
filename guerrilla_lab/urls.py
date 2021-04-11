@@ -23,8 +23,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 # # Fix issue with nav-sidebar in admin site. Not used after upgrade and clear cache.
-# admin.autodiscover()
-# admin.site.enable_nav_sidebar = False
+admin.autodiscover()
+admin.site.enable_nav_sidebar = False
 
 
 urlpatterns = [

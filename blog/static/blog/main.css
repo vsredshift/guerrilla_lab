@@ -44,6 +44,16 @@ ul {
     font-weight: 500;
 }
 
+.site-header .navbar-nav .profile-action {
+    color: #000;
+}
+
+.site-header .navbar-nav .profile-action:hover {
+    color: #999;
+}
+
+
+
 .content-section {
     background: #ffffff;
     padding: 10px 20px;

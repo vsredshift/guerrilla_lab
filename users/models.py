@@ -15,6 +15,7 @@ class Profile(models.Model):
     twitter = models.CharField(max_length=300, blank=True, null=True)
     instagram = models.CharField(max_length=300, blank=True, null=True)
     facebook = models.CharField(max_length=300, blank=True, null=True)
+    youtube = models.CharField(max_length=300, blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'

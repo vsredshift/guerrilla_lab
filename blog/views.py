@@ -13,7 +13,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Post, Category
 from .forms import PostForm
 
-""" 
+"""
 dummy posts to get started
 posts = [
     {
@@ -28,7 +28,7 @@ posts = [
         'content': 'Second post content',
         'date_posted': 'August 28, 2018'
     }
-] 
+]
 """
 
 """ Function View """
@@ -84,7 +84,7 @@ class PostDetailView(DetailView):
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
-    #fields = ['title', 'subheading', 'category', 'content']
+    # fields = ['title', 'subheading', 'category', 'content']
 
     # Override form_valid method and set author to current user
     def form_valid(self, form):
@@ -136,13 +136,13 @@ def CategoryView(request, category):
     return render(request, 'blog/post_category.html', {'category': category, 'page_obj': page_obj})
 
 
-def LikePostView(request, pk):
-    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+def LikePostView(request, slug):
+    post = get_object_or_404(Post, slug=request.POST.get('post_id'))
     post.likes.add(request.user)
-    return redirect(reverse('post-detail', args=[str(pk)]))
+    return redirect(reverse('post-detail', args=[slug]))
 
 
-def DislikePostView(request, pk):
-    post = get_object_or_404(Post, id=request.POST.get('post_id_down'))
+def DislikePostView(request, slug):
+    post = get_object_or_404(Post, slug=request.POST.get('post_id_down'))
     post.dislikes.add(request.user)
-    return redirect(reverse('post-detail', args=[str(pk)]))
+    return redirect(reverse('post-detail', args=[slug]))

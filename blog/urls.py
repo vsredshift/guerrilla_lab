@@ -16,24 +16,24 @@ urlpatterns = [
     # Posts by user
     path('user/<str:username>', UserPostListView.as_view(), name='user-posts'),
 
-    # Route to specific post using integer:primary key (convention)
-    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
+    # Route to specific post using slug
+    path('post/<slug>/', PostDetailView.as_view(), name='post-detail'),
 
     # Create a new post [template <model>_<form>]
-    path('post/new/', PostCreateView.as_view(), name='post-create'),
+    path('post/', PostCreateView.as_view(), name='post-create'),
 
     # Update Post
-    path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
+    path('post/<slug>/update/', PostUpdateView.as_view(), name='post-update'),
 
     # Delete Post
-    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
+    path('post/<slug>/delete/', PostDeleteView.as_view(), name='post-delete'),
 
     # Posts by category
     path('category/<str:category>/', CategoryView, name='category'),
 
     # Likes/Dislikes
-    path('like/<int:pk>/', LikePostView, name="post-like"),
-    path('dislike/<int:pk>/', DislikePostView, name="post-dislike"),
+    path('like/<slug>/', LikePostView, name="post-like"),
+    path('dislike/<slug>/', DislikePostView, name="post-dislike"),
 
     # User Profile Page
     path('<int:pk>/profile/', ProfilePageView.as_view(), name='profile-page'),
