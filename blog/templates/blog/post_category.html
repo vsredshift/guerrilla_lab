@@ -19,7 +19,7 @@
                     <a href="#" class="article-category">{{ post.category }}</a>
                 </div>
                 <h2>
-                    <a class="article-title" href="{% url 'post-detail' post.id %}">
+                    <a class="article-title" href="{% url 'post-detail' post.slug %}">
                     {{ post.title }}
                     </a>
                 </h2>

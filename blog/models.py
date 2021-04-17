@@ -12,9 +12,9 @@ class Post(models.Model):
     """ Main Blog Post class """
     title = models.CharField(max_length=100)
     # slug = models.SlugField(max_length=255, unique=True)
-    slug = AutoSlugField(populate_from=lambda instance: instance.title,
+    slug = AutoSlugField(populate_from='get_populate_from',
                          unique_with=['author', 'date_posted'],
-                         slugify=lambda value: value.replace(' ', '-'))
+                         slugify=slugify)
     content = RichTextField(blank=True, null=True)      # Rich text editor
     subheading = models.TextField(max_length=350, blank=True, default=None)
     date_posted = models.DateTimeField(default=timezone.now)
@@ -60,10 +60,19 @@ class Category(models.Model):
 class Comment(models.Model):
     comment = models.ForeignKey(
         Post, related_name="comments", on_delete=models.CASCADE)
-    # name = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
+    # name = models.ForeignKey(User, related_name="user",
+    #                          on_delete=models.CASCADE)
+    #name = models.CharField(max_length=255)
     body = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.comment.title}, {self.name}'
+        return f'{self.comment.title}'
+
+
+def get_populate_from(instance):
+    return f'{instance.title}'
+
+
+def slugify(value):
+    value.replace(' ', '-')

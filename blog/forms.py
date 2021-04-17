@@ -21,5 +21,5 @@ class PostForm(forms.ModelForm):
             'head_image': forms.TextInput(attrs={'class': 'form-control'}),
             'category': forms.Select(choices=choices, attrs={'class': 'form-control'}),
             'tags': forms.TextInput(attrs={'class': 'form-control'}),
-            'content': forms.Textarea(attrs={'class': 'form-control'})
+            'content': forms.Textarea(attrs={'class': 'form-control'}),
         }

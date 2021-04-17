@@ -102,7 +102,7 @@
                 {% endif %}
             {% else %}
                 {% for comment in post.comments.all%}
-                    <strong>{{ comment.name }}</strong> on {{ comment.date }}
+                    <strong>{{ user.username }}</strong> on {{ comment.date }}
                     <br>
                     {{ comment.body }}
                 {% endfor %}
