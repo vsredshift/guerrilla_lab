@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView, CategoryView, LikePostView, DislikePostView
+from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView, CategoryView, LikePostView, DislikePostView, TagListView
 from users.views import ProfilePageView
 from . import views
 # Serving static files
@@ -31,9 +31,13 @@ urlpatterns = [
     # Posts by category
     path('category/<str:category>/', CategoryView, name='category'),
 
+    # Posts by Tags
+    path('tags/<slug:tag_slug>/', TagListView.as_view(), name='posts-by-tag'),
+
     # Likes/Dislikes
     path('like/<slug>/', LikePostView, name="post-like"),
     path('dislike/<slug>/', DislikePostView, name="post-dislike"),
+
 
     # User Profile Page
     path('<int:pk>/profile/', ProfilePageView.as_view(), name='profile-page'),

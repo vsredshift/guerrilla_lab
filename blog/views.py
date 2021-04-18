@@ -49,7 +49,7 @@ class PostListView(ListView):
     model = Post
     # Create template to handle class view
     template_name = 'blog/home.html'    # <app>/<model>_<viewtype>.html
-
+    title = 'Blog Home'
     # set name to use in template instead of default "object_list"
     context_object_name = 'posts'
 
@@ -60,7 +60,19 @@ class PostListView(ListView):
         category_menu = Category.objects.all()
         context = super(PostListView, self).get_context_data(*args, **kwargs)
         context['category_menu'] = category_menu.order_by('category_name')
+        context['title'] = self.title
         return context
+
+
+class TagListView(ListView):
+    model = Post
+    template_name = 'blog/home.html'
+    context_object_name = 'posts'
+    ordering_by = ['date_posted']
+    paginate_by = 5
+
+    def get_queryset(self):
+        return Post.objects.filter(tags__slug=self.kwargs.get('tag_slug'))
 
 
 class UserPostListView(ListView):
@@ -77,8 +89,8 @@ class UserPostListView(ListView):
 
 
 class PostDetailView(DetailView):
-    # By following convention in template we only need one line of code!!
     model = Post
+    context_object_name = 'post'
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
