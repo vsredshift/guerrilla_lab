@@ -10,8 +10,8 @@ from taggit.models import Tag
 
 # Class views
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post, Category
-from .forms import PostForm
+from .models import Post, Category, Comment
+from .forms import PostForm, CommentForm
 
 """
 dummy posts to get started
@@ -90,7 +90,12 @@ class UserPostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+    form_class = CommentForm
     context_object_name = 'post'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -133,6 +138,19 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+class AddCommentView(CreateView):
+    model = Comment
+    template_name = 'post_comment.html'
+    fields = '__all__'
+
+class FeaturedView(ListView):
+    template_name = "blog/featured.html"
+    context_object_name = 'posts'
+    model = Post
+
+    def get_queryset(self):
+        return Post.objects.filter(featured=True).order_by('-date_posted')
+    
 
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
@@ -147,7 +165,6 @@ def CategoryView(request, category):
 
     return render(request, 'blog/post_category.html', {'category': category, 'page_obj': page_obj})
 
-
 def LikePostView(request, slug):
     post = get_object_or_404(Post, slug=request.POST.get('post_id'))
     post.likes.add(request.user)
@@ -158,3 +175,32 @@ def DislikePostView(request, slug):
     post = get_object_or_404(Post, slug=request.POST.get('post_id_down'))
     post.dislikes.add(request.user)
     return redirect(reverse('post-detail', args=[slug]))
+
+
+def PostCommentView(request, slug, parent_comment_id=None):
+    post = get_object_or_404(Post, slug=request.POST.get('post_slug'))
+    
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.post = post
+            new_comment.user = request.user
+
+            # Secondary response
+            if parent_comment_id:
+                parent_comment = Comment.objects.get(id=parent_comment_id)
+                # If the response level exceeds level 2, it will be converted to level 2.
+                new_comment.parent_id = parent_comment.get_root().id
+                # Respondent
+                new_comment.reply_to = parent_comment.user
+                new_comment.save()
+                return HttpResponse('200 OK')
+
+            new_comment.save()
+            return redirect(post.slug)
+    else:
+        comment_form = CommentForm()
+    return render(request, 'post-detail', {'post': post, 'comments': new_comment,
+                                           'comments': comments, 'comment_form': comment_form})

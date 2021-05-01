@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView, CategoryView, LikePostView, DislikePostView, TagListView
+from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView, CategoryView, LikePostView, DislikePostView, TagListView, PostCommentView, AddCommentView, FeaturedView
 from users.views import ProfilePageView
 from . import views
 # Serving static files
@@ -22,6 +22,9 @@ urlpatterns = [
     # Create a new post [template <model>_<form>]
     path('post/', PostCreateView.as_view(), name='post-create'),
 
+    # # Add Comment
+    # path('post/<slug>/comment', AddCommentView.as_view(), name='post-comment'),
+
     # Update Post
     path('post/<slug>/update/', PostUpdateView.as_view(), name='post-update'),
 
@@ -30,6 +33,7 @@ urlpatterns = [
 
     # Posts by category
     path('category/<str:category>/', CategoryView, name='category'),
+    path('featured/', FeaturedView.as_view(), name='featured'),
 
     # Posts by Tags
     path('tags/<slug:tag_slug>/', TagListView.as_view(), name='posts-by-tag'),
@@ -37,6 +41,11 @@ urlpatterns = [
     # Likes/Dislikes
     path('like/<slug>/', LikePostView, name="post-like"),
     path('dislike/<slug>/', DislikePostView, name="post-dislike"),
+
+    # Comments
+    path('post/<slug>/comment', PostCommentView, name='post-comment'),
+    path('post/<slug>/comment/<int:parent_comment_id>/',
+         PostCommentView, name='comment-reply'),
 
 
     # User Profile Page

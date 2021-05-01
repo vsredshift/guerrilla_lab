@@ -1,5 +1,6 @@
 from django import forms
-from .models import Post, Category
+from .models import Post, Category, Comment
+from mptt.forms import TreeNodeChoiceField
 
 
 class PostForm(forms.ModelForm):
@@ -23,3 +24,21 @@ class PostForm(forms.ModelForm):
             'tags': forms.TextInput(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),
         }
+
+
+class CommentForm(forms.ModelForm):
+    parent = TreeNodeChoiceField(queryset=Comment.objects.all())
+
+    class MPTTMeta:
+        model = Comment
+        fields = ('body', 'parent')
+        widgets = {
+            'body': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+        }
+
+class FeaturedPost(PostForm):
+    
+    class Meta:
+        fields = ('featured','title', 'subheading', 'head_image',
+                  'category', 'tags', 'content')
+        model = Post

@@ -1,120 +1,162 @@
 {% extends "blog/base.html" %} 
-{% block title %}{{ object.title }}{% endblock %}
+{% load crispy_forms_tags %} 
+{% block title %}
+    {{object.title }} 
+{% endblock %} 
+
 {% block content %}
 <!-- get posts context dictionary -->
-    <article class="media content-section">
-        <img
-            class="rounded-circle article-img"
-            src="{{ post.author.profile.image.url }}"
-            {% comment %} use object instead of post {% endcomment %}
-            alt=""
-        />
-        <div class="media-body article-top">
-            <div class="article-metadata">
-                <a class="mr-2" href="{% url 'user-posts' post.author.username %}">
+<article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" alt=""/>
+    <div class="media-body article-top">
+        <div class="article-metadata">
+            <a class="mr-2" href="{% url 'user-posts' post.author.username %}">
                 {{ post.author.first_name}} {{post.author.last_name }}</a>
-                {% comment %} format date with |date ""  [check docs] {% endcomment %}
                 <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
-                <a href="{% url 'category' post.category %}" class="article-category">{{ post.category }}</a>
-                
-                
-                {% if post.author == user %}
+            <a class="article-category" href="{% url 'category' post.category %}">{{ post.category }}</a>
+
+            {% if post.author == user %}
                 <div>
-                    <a
-                        href="{% url 'post-update' post.slug %}"
-                        class="btn btn-secondary btn-sm mt-1 mb-1"
-                        >Update</a
-                    >
-                    <a
-                        href="{% url 'post-delete' post.slug %}"
-                        class="btn btn-danger btn-sm mt-1 mb-1"
-                        >Delete</a
-                    >
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' post.slug %}">Update</a>
+                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' post.slug %}">Delete</a>
                 </div>
-                {% endif %}
-            </div>
-            
-            <h2 class="article-title">{{ post.title }}</h2>
-            <p class="article-subtitle">{{ post.subheading }}</p>
-            <p class="article-content">{{ post.content|safe }}</p>
-            {% if post.author.profile %}
+            {% endif %}
+        </div>
+
+        <h2 class="article-title">{{ post.title }}</h2>
+        <p class="article-subtitle">{{ post.subheading }}</p>
+        <p class="article-content">{{ post.content|safe }}</p>
+
+        {% if post.author.profile %}
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-3">
-                        <img class="article-end-img" src="{{ post.author.profile.image.url }}" alt="...">
+                        <img class="article-end-img" src="{{ post.author.profile.image.url }}" alt="..."/>
                     </div>
+
                     <div class="col-md-9">
                         <div class="card-body">
-                        <a href="{% url 'profile-page' post.author.profile.id %}">Profile</a>
-                            <h4 class="card-title mb-2">{{ post.author.first_name }} {{ post.author.last_name }}</h4>
+                            <a href="{% url 'profile-page' post.author.profile.id %}">Profile</a>
+                            <h4 class="card-title mb-2">
+                                {{ post.author.first_name }} {{post.author.last_name}}
+                            </h4>
                             <div class="small text-muted mb-3">
                                 {% if post.author.profile.website %}
-                                    <a class="mr-2" target="blank" href="{{ post.author.profile.website }}"><i class="fas fa-home fa-2x"></i></a>
-                                {% endif %}
-                                {% if post.author.profile.linkedin %}
-                                    <a class="mr-2" target="blank" href="{{ post.author.profile.linkedin }}"><i class="fab fa-linkedin-in fa-2x"></i></a>
-                                {% endif %}
-                                {% if post.author.profile.github %}
-                                    <a class="mr-2" target="blank" href="{{ post.author.profile.github }}"><i class="fab fa-github fa-2x"></i></a>
-                                {% endif %}
-                                {% if post.author.profile.twitter %}
-                                    <a class="mr-2" target="blank" href="{{ post.author.profile.twitter }}"><i class="fab fa-twitter fa-2x"></i></a>
-                                {% endif %}
-                                {% if post.author.profile.instagram %}
-                                    <a class="mr-2" target="blank" href="{{ post.author.profile.instagram}}"><i class="fab fa-instagram fa-2x"></i></a>
-                                {% endif %}
-                                {% if post.author.profile.facebook %}
-                                    <a class="mr-2" target="blank" href="{{ post.author.profile.facebook }}"><i class="fab fa-facebook fa-2x"></i></a>
-                                {% endif %}
+                                    <a class="mr-2" href="{{ post.author.profile.website }}" target="blank">
+                                    <i class="fas fa-home fa-2x"></i></a>
+                                {% endif %} 
                                 
+                                {% if post.author.profile.linkedin %}
+                                    <a class="mr-2" href="{{ post.author.profile.linkedin }}" target="blank">
+                                    <i class="fab fa-linkedin-in fa-2x"></i></a>
+                                {% endif %} 
+                                
+                                {% if post.author.profile.github %}
+                                    <a class="mr-2" href="{{ post.author.profile.github }}" target="blank">
+                                    <i class="fab fa-github fa-2x"></i></a>
+                                {% endif %} 
+                                
+                                {% if post.author.profile.twitter %}
+                                    <a class="mr-2" href="{{ post.author.profile.twitter }}" target="blank">
+                                    <i class="fab fa-twitter fa-2x"></i></a>
+                                {% endif %} 
+                                
+                                {% if post.author.profile.instagram %}
+                                    <a class="mr-2" href="{{ post.author.profile.instagram}}" target="blank">
+                                    <i class="fab fa-instagram fa-2x"></i></a>
+                                {% endif %} 
+                                
+                                {% if post.author.profile.facebook %}
+                                    <a class="mr-2" href="{{ post.author.profile.facebook }}" target="blank">
+                                    <i class="fab fa-facebook fa-2x"></i></a>
+                                {% endif %}
                             </div>
+
                             <p class="card-text">{{ post.author.profile.bio }}</p>
                         </div>
                     </div>
                 </div>
             </div>
-            {% endif %}
-                            
-            {% if user.is_authenticated %}
-                <hr>
-                <div class="likes">
-                    <form action="{% url 'post-like' post.slug %}" method=POST>
-                        {% csrf_token %}
-                        {% comment %} <button class="btn btn-primary btn-sm" type='submit' name='post_id' value='{{ post.id }}'>Like</button> {% endcomment %}
-                        <button id="like" class="btn btn-outline-secondary btn-sm" style="border: 0" name='post_id' value='{{ post.slug }}'><i class="fas fa-arrow-up"></i></button>{{ post.total_likes }}
-                    </form>
-                    <form action="{% url 'post-dislike' post.slug %}" method=POST>
-                        {% csrf_token %}
-                        
-                        <button id="dislike" class="btn btn-outline-secondary btn-sm ml-3" style="border: 0" name='post_id_down' value='{{ post.slug }}'><i class="fas fa-arrow-down"></i></button>{{ post.total_dislikes }}
-                    </form>
-                </div>
+        {% endif %} 
+        
+        {% if user.is_authenticated %}
+            <hr />
+            <div class="likes">
+                <form action="{% url 'post-like' post.slug %}" method="POST">
+                    {% csrf_token %}
+                    {% comment %} <button class="btn btn-primary btn-sm" type="submit" name="post_id" value="{{ post.id }}">
+                        Like
+                    </button> {% endcomment %}
+                    
+                    <button id="like" class="btn btn-outline-secondary btn-sm" style="border: 0" name="post_id" value="{{post.slug}}">
+                        <i class="fas fa-arrow-up"></i></button>{{ post.total_likes }}
+                </form>
+                <form action="{% url 'post-dislike' post.slug %}" method="POST">
+                    {% csrf_token %}
 
-            {% endif %}
-            
-            <br>
-            <h3>{{ post.comments.count }} comment{{post.comments.count|pluralize}}</h3>
-            {% if not post.comments.all %}
-                {% if user.is_authenticated%}
-                    Be the first to comment... <a href="#"><i class="fas fa-comment"></i></a>
-                {% else %}
-                    <p>No comments yet.</p>
-                    <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Sign up</a> to post a comment.
-                {% endif %}
+                    <button id="dislike" class="btn btn-outline-secondary btn-sm ml-3" style="border: 0" name="post_id_down" value="{{post.slug}}">
+                        <i class="fas fa-arrow-down"></i></button>{{ post.total_dislikes }}
+                </form>
+            </div>
+
+        {% endif %}
+
+        <br />
+        {% load mptt_tags %} 
+        {% if not post.comments.all %}
+            <h3>No Comments Yet</h3>
+            {% if user.is_authenticated%} 
+                Be the first to comment...
+                <a href="{% url 'post-comment' post.slug %}"><i class="fas fa-comment"></i></a>
             {% else %}
-                {% for comment in post.comments.all%}
-                    <strong>{{ user.username }}</strong> on {{ comment.date }}
-                    <br>
-                    {{ comment.body }}
-                {% endfor %}
-            {% endif %}
+                <a href="{% url 'login' %}">Login</a> or
+                <a href="{% url 'register' %}">Sign up</a> to post a comment. 
+            {% endif%}
+        {% else %}
+            <h3>
+                {{ post.comments.count }} comment{{post.comments.count|pluralize}}
+            </h3>
+            {% for comment in post.comments.all%}
+                <strong>{{ user.username }}</strong> on {{ comment.date }}
+                <br />
+                {{ comment.body|linebreaks }} 
+            {% endfor %} 
+        {% endif %} 
+        
+        {% recursetree post.comments.all %}
+            <div>{{ node.body}}</div>
+            {% if not node.is_leaf_node %}
+                <div class="pl-2 pl-md-5">{{ children }}</div>
+            {% endif %} 
+        {% endrecursetree %}
+
+        <div class="content-secton">
+            {% comment %}
+            <h2>Make a Comment</h2>
+            {% endcomment %}
+            <form id="comment-form" method="POST">
+                <fieldset class="form-group">
+                    <legend><a href="">Add Comment</a></legend>
+                    {% csrf_token %} 
+                    {{ comment_form.media}} 
+                    {{ comment_form|crispy }} 
+                    {% comment %} {{comment_form.as_p}} {% endcomment %}
+                </fieldset>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                        Submit
+                    </button>
+                </div>
+            </form>
         </div>
-    </article>
-    <br><br>
-    
+    </div>
+</article>
+<br /><br />
+
 {% endblock content %}
 
 <script>
-    document.querySelector("#like").addEventListener('click', function(e) {
+    document.querySelector("#like").addEventListener("click", function (e) {
         e.preventDefault();
-        });</script>
+    });
+</script>

@@ -6,11 +6,13 @@ from django.utils.text import slugify
 from django.urls import reverse
 from ckeditor.fields import RichTextField
 from taggit.managers import TaggableManager
+from mptt.models import MPTTModel, TreeForeignKey
 
 
 class Post(models.Model):
     """ Main Blog Post class """
     title = models.CharField(max_length=100)
+    featured = models.BooleanField(default=False)
     # slug = models.SlugField(max_length=255, unique=True)
     slug = AutoSlugField(populate_from='get_populate_from',
                          unique_with=['author', 'date_posted'],
@@ -57,17 +59,23 @@ class Category(models.Model):
         verbose_name_plural = "Categories"
 
 
-class Comment(models.Model):
+class Comment(MPTTModel):
     comment = models.ForeignKey(
         Post, related_name="comments", on_delete=models.CASCADE)
-    # name = models.ForeignKey(User, related_name="user",
-    #                          on_delete=models.CASCADE)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE,
+                            null=True, blank=True, related_name='children')
+    reply_to = models.ForeignKey(User, null=True, blank=True,
+                                 on_delete=models.CASCADE, related_name='replyers')
+
     #name = models.CharField(max_length=255)
-    body = models.TextField()
+    body = RichTextField(blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.comment.title}'
+        return f'{self.comment.title}, {self.comment.author}'
+
+    class MPTTMeta:
+        order_insertion_by = ['date']
 
 
 def get_populate_from(instance):
