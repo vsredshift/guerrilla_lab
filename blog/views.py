@@ -151,6 +151,19 @@ class FeaturedView(ListView):
     def get_queryset(self):
         return Post.objects.filter(featured=True).order_by('-date_posted')
     
+class TopRatedView(ListView):
+    template_name = "blog/top_rated.html"
+    context_object_name = "posts"
+    model = Post
+
+    def get_queryset(self):
+        posts = Post.objects.all()
+        top_rated = []
+        for post in posts:
+            if post.likes:
+                top_rated.append(post.total_likes())
+        return top_rated[:10]
+        
 
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})

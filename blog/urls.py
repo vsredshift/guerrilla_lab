@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView, CategoryView, LikePostView, DislikePostView, TagListView, PostCommentView, AddCommentView, FeaturedView
+from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView, CategoryView, LikePostView, DislikePostView, TagListView, PostCommentView, AddCommentView, FeaturedView, TopRatedView
 from users.views import ProfilePageView
 from . import views
 # Serving static files
@@ -34,6 +34,7 @@ urlpatterns = [
     # Posts by category
     path('category/<str:category>/', CategoryView, name='category'),
     path('featured/', FeaturedView.as_view(), name='featured'),
+    path('top-rated/', TopRatedView.as_view(), name='top'),
 
     # Posts by Tags
     path('tags/<slug:tag_slug>/', TagListView.as_view(), name='posts-by-tag'),

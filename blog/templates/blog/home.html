@@ -17,7 +17,7 @@
                         >{{ post.date_posted|date:"F d, Y" }} </small
                     >
                     {% if post.featured %}
-                         <a href="{% url 'featured'%}">Featured</a>
+                         <a class="aside-link" href="{% url 'featured'%}">⭐ Featured Post</a>
                     {% endif %}
                     <a href="{% url 'category' post.category %}" class="article-category">{{ post.category }}</a>
                     

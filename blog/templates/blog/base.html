@@ -124,8 +124,9 @@
                             <h3>What's Happening?</h3>
                             <p class="text-muted">Get the latest info on what's going down in the lab and beyond
                                 <ul class="list-group">
-                                    <li class="list-group-item list-group-item-light">Featured Posts</li>
-                                    <li class="list-group-item list-group-item-light">Top Rated Posts</li>
+                                    <li class="list-group-item list-group-item-light"><a class="aside-link" href="{% url 'featured' %}">Featured Posts</a> </li>
+                                    <li class="list-group-item list-group-item-light">
+                                    <a href="{% url 'top' %}"> Top Rated Posts</a></li>
                                     <li class="list-group-item list-group-item-light">On the Horizon</li>
                                     <li class="list-group-item list-group-item-light">Become a Contributor</li>
                                 </ul>

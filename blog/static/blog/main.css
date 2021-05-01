@@ -147,3 +147,7 @@ a.article-title:hover {
     align-items: center;
     
 }
+
+.aside-link {
+    text-decoration: none;
+}
